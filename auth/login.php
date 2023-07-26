@@ -37,6 +37,23 @@
 
 <section class="forms">
         <div class="container">
+
+
+             <?php 
+
+
+            if ( isset($_GET['success']) && $_GET['success'] == 1 )
+            {
+                // treat the succes case ex:
+                echo "
+                <div style='padding-top:20px;'>
+                <div class='alert alert-success'><b>Successfully!</b> Your account has been successfully created. You can now proceed to login </div>
+                </div>
+                ";
+            }
+
+            ?>
+            
             <!-- logo -->
             <div class="logo">
                 <a class="brand-logo" href="#">Login To Your Account</a>
