@@ -119,8 +119,10 @@
 
             if($query > 0)
             {
-                echo '<script>window.location.href = "http://localhost/resume-Builder/auth/login.php";</script>';
-            }
+		 echo"
+                <script>window.location.href = 'http://localhost/resume-Builder/auth/login.php?success=1';</script>
+                ";
+               exit();            }
             else
             {
                 echo"
