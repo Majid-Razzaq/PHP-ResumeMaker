@@ -665,7 +665,7 @@ session_start();
 
             if($update_query > 0)
             {
-                $_SESSION['username'] = $name;
+                // $_SESSION['username'] = $name;
 
                echo"
                  <script>window.location.href = 'templates.php?success=1';</script>
@@ -804,7 +804,7 @@ else
 }
 else
 {
-    header('location:templates.php');
+    header('location:resume.php');
 }
 ?>
 </body>
