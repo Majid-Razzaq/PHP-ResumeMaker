@@ -9,12 +9,21 @@
  $query_run = mysqli_query($con,$query);
  $row = mysqli_fetch_array($query_run);
 
- if($username == $row[3])
- {
-    header("location:templates.php");
- }
- else
- { 
+ $query = "select * from cv_data where username = '$username'";
+ $query_run = mysqli_query($con,$query);
+ $data = mysqli_fetch_array($query_run);
+ 
+ if (is_array($data) && isset($data['username'])) 
+    {
+        header('location:update-resume.php');
+    }
+    else
+    {
+     
+    
+        if(isset($_SESSION["username"]))
+        {
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +77,7 @@
                                 <li class="pt-3"><a href="#" class="p-1" id="selectText" name="<?php echo $row['user_img']?>">Upload New Image</a></li>
                                     <input type="file" name="txtfile" id="imageInput" style="display: none;">
                                     
-                                    
-                                    <li><p onclick="showPrompt()" class="btn btn-link text-danger p-1">Delete Image</p></li>
+                                    <li><input type="submit" id="dlt_img" class="btn btn-link text-danger p-1" value="Delete Image"></li>
                                      
                                 </ul>
                                 
@@ -282,7 +290,7 @@
                                                             <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="Job Title">Skill</label>
-                                                                <input type="text" name="SkijobTitle" class="form-control" placeholder="add your skill">
+                                                                <input type="text" name="SkijobTitle" class="form-control" placeholder="add your skill" required>
                                                             </div>
                                                             </div>
                                                             <div class="col-md-6">
@@ -308,7 +316,7 @@
                                                             <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="Job Title">Software</label>
-                                                                <input type="text" name="softwareName" class="form-control" placeholder="Enter your expertise software name:">
+                                                                <input type="text" name="softwareName" class="form-control" placeholder="Enter your expertise software name:" required>
                                                             </div>
                                                             </div>
 
@@ -414,7 +422,7 @@
                                                             <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="Job Title">Language</label>
-                                                                <input type="text" name="english" class="form-control" value="English">
+                                                                <input type="text" name="english" class="form-control" value="English" required>
                                                             </div>
                                                             </div>
                                                             <div class="col-md-6">
@@ -662,6 +670,38 @@
     ?>
     <!-- PHP Code End Here -->
 
+
+    <!-- Image delete Code Start -->
+    <?php
+
+        if(isset($_POST['dlt_img']))
+        {
+            $sql = "UPDATE cv_data, register
+            SET cv_data.user_img = NULL, register.user_img = NULL
+            WHERE cv_data.username = '$username' AND register.username = '$username'";
+
+            $query_run = mysqli_query($con,$sql);
+
+            if($query_run > 0)
+            {
+                echo "
+                <script>alert('deleted');
+                window.location.href = 'update-resume.php';
+                </script>   
+                ";
+                // header('Location: ' . $_SERVER['PHP_SELF']);
+
+            }
+            else
+            {
+                echo "
+                <script>alert('Failed')</script>
+                ";
+            }
+        }
+        ?>
+<!-- Image delete Code End -->
+
      <!-- Including Footer -->
     <?php
     include('inc/footer.php');
@@ -682,31 +722,7 @@
     </script>
 
 
-<script>
-function showPrompt() {
-    var result = confirm('Are you sure you want to delete?');
-    
-    if (result) {
-        //  Image deletion Code Start
-                <?php
 
-            // if(isset($_POST['dlt_img']))
-            // {
-            $sql = "UPDATE register SET user_img = NULL WHERE username = '$username'";
-            $query_run = mysqli_query($con,$sql);
-
-            // unset($_SESSION["user_img"]);
-            // }
-            ?>
-        //  Image deletion Code End 
-    } else {
-        console.log('User clicked "Cancel"');
-        // Perform actions for "Cancel" button clicked or dialog closed
-    }
-}
-
-
-</script>
 
 
 <!-- Select Image code -->
@@ -759,8 +775,14 @@ function showPrompt() {
     <script src="assets/js/bootstrap.min.js"></script>
 </script>
 
-<?php 
+<?php
+} 
+else
+{
+    header("location:auth/login.php");
 }
+    }
+
 ?>
 </body>
 </html>
