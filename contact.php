@@ -112,23 +112,37 @@
           <?php
             if(isset($_POST['submit']))
             {
+              
+              $to = "abdulmajid22770@gmail.com";
                 $name = $_POST['name'];
                 $sub  = $_POST['subject'];
                 $email = $_POST['sender'];
                 $contact = $_POST['phone'];
                 $msg = $_POST['message'];
+                $from = "someonelse@example.com";
+                $headers = "From:" . $from;
 
                 $query = mysqli_query($con,"insert into contact (username,subject,email,phone,msg)
                 values ('$name','$sub','$email','$contact','$msg');
                 ");
                 if($query > 0)
                 {
+                  // Email sending code
+                                    
+                  $mailSent = mail($to, $sub, $msg, $headers);
+
+                  // if ($mailSent) {
+                  //     echo "Email sent successfully.";
+                  // } else {
+                  //     echo "Email could not be sent.";
+                  // }
+
                   echo "<meta http-equiv='refresh' content='0'>";
-                  echo "<script>alert('successfully insert')</script>";
+                  echo "<script>alert('Your message has been sent successfully. Thank you for contacting us.')</script>";
                 }
                 else
                 {
-                  echo "<script>alert('successfully insert')</script>";
+                  echo "<script>alert('Failed! Try again')</script>";
                 }
             }
           ?>
