@@ -178,7 +178,7 @@
 
                         <form action="#" class="subscribe mt-5" method="post">
                             <!-- <input type="email" name="email" placeholder="Your Email Address" required=""> -->
-                            <a href="checkPage.php" class="btn btn-style btn-primary" >Create Resume Now</a>
+                            <a href="auth/login.php" class="btn btn-style btn-primary" >Create Resume Now</a>
                         </form>
                     </div>
                 </div>
