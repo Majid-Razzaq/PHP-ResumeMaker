@@ -93,14 +93,12 @@
 
 </div>
 
-     <!-- Including Header -->
+     <!-- Including footer -->
     <?php
     include('inc/footer.php');
     ?>
-    <!-- Including Header -->
+    <!-- Including footer -->
     
-
-
         <!-- Js scripts -->
   
     <!--/MENU-JS-->
