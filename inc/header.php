@@ -71,7 +71,7 @@
                         </li>
 
                         <li class="nav-item mr-lg-1">
-                            <a href="checkPage.php">
+                            <a href="auth/login.php">
                             <button name="submit" class="btn btn-primary mt-2">Create Resume</button>
                             </a>  
                         </li>
