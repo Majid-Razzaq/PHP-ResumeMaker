@@ -74,11 +74,8 @@
 
                                 <ul>
 
-                                <li class="pt-3"><a href="#" class="p-1" id="selectText" name="<?php echo $row['user_img']?>">Upload New Image</a></li>
+                                <li class="pt-4"><a href="#" class="p-1" id="selectText" name="<?php echo $row['user_img']?>">Upload New Image</a></li>
                                     <input type="file" name="txtfile" id="imageInput" style="display: none;">
-                                    
-                                    <li><input type="submit" id="dlt_img" class="btn btn-link text-danger p-1" value="Delete Image"></li>
-                                     
                                 </ul>
                                 
                             
@@ -576,7 +573,7 @@
                         </div>
 
 
-                        <Button name="download" class="btn btn-danger float-right btn-lg">Download</Button>
+                        <Button name="download" class="btn btn-danger float-right btn-lg">Create</Button>
                 </form>
                        
                     </div>
@@ -628,10 +625,20 @@
             $oth_end_date  = $_POST['OthEndDate'];
 
             
-            $filename = $_FILES["txtfile"]["name"];
-			$oldLocation = $_FILES["txtfile"]["tmp_name"];
-			$newlocation = "assets/images/".$filename;
-            move_uploaded_file($oldLocation,$newlocation);
+            if(!empty($_FILES['txtfile']['name'])) {
+
+                $filename = $_FILES["txtfile"]["name"];
+                $oldLocation = $_FILES["txtfile"]["tmp_name"];
+                $newlocation = "assets/images/".$filename;
+                move_uploaded_file($oldLocation,$newlocation); 
+           }
+           else{
+
+                $filename = $row['user_img']; // Get the existing image filename from the database
+                $oldLocation = $_FILES["txtfile"]["tmp_name"];
+                $newlocation = "assets/images/".$filename;
+                move_uploaded_file($oldLocation, $newlocation);
+           }
 
             $query = mysqli_query($con,"INSERT into cv_data(job_title,user_img,username,email,phone,address,user_summary,empJob_title,employer,emp_start_Date,emp_end_Date,emp_city,emp_description,school_name,deg_name,edu_start_date,edu_end_date,edu_city,edu_summary,skill_job_title,skill_emp,software_name,software_level,urdu,urdu_level,english,english_level,ref_name,ref_comp_name,ref_phone,ref_email,other_name,other_city,other_strt_date,other_end_date)
             values
