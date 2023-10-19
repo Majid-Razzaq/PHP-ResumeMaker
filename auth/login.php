@@ -39,21 +39,19 @@
         <div class="container">
 
 
-             <?php 
+        <?php 
 
-
-            if ( isset($_GET['success']) && $_GET['success'] == 1 )
+            if (isset($_SESSION['success']))
             {
-                // treat the succes case ex:
                 echo "
                 <div style='padding-top:20px;'>
-                <div class='alert alert-success'><b>Successfully!</b> Your account has been successfully created. You can now proceed to login </div>
+                <div class='alert alert-success'><b>Success!</b> Your account has been successfully created. You can now proceed to login </div>
                 </div>
                 ";
             }
 
             ?>
-            
+
             <!-- logo -->
             <div class="logo">
                 <a class="brand-logo" href="#">Login To Your Account</a>
@@ -114,16 +112,32 @@ if(isset($_POST['login']))
         $_SESSION['password'] = $session_Data[5]; 
         $_SESSION['user_img'] = $session_Data[6];
         header("location:http://localhost/resume-Builder/templates.php");
-    }   
-    else
-    {
-        echo"
-        <div style='margin-top:10px;' class='alert alert-danger' role='alert'>
-        <b>Failed!</b> Login failed...
-        </div>
-         ";  
+    
+    // else
+    // {
+    // //    echo "<script>window.location.href = 'http://localhost/Resume-builder/auth/login.php';</script>";
+    // // unset($_SESSION['success']);
+    // // session_destroy($_SESSION['success']);
+
+    // session_destroy();
+
+    //     echo"
+    //         <div style='margin-top:10px;' class='alert alert-danger' role='alert'>
+    //         <b>Failed!</b> Login failed...
+    //         </div>
+    //               echo "<script>window.location.href = 'http://localhost/Resume-builder/auth/login.php';</script>";         ";
+    // }
+}   
+    else {
+        echo "
+            <script>alert('Login failed...')</script>
+        ";
+        echo "<script>window.location.href = 'http://localhost/Resume-builder/auth/login.php';</script>";
+
+
 
     }
+    unset($_SESSION['success']);
 }
 
 } 
