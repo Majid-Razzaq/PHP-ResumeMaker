@@ -244,10 +244,11 @@ h3.clr3{
 @media (max-width: 1024px){
 .sidebar {
   padding: 2em 17px;
-  width:20%;
+  width:21%;
 }
+
 .sidebar h1 {
-  font-size: 1.6em;
+  font-size: 1.2em;
 }
 .main {
   margin-left: 19.666667%;
@@ -319,6 +320,8 @@ address span {
   font-size:0.85em;
 }
 }
+
+
 @media (max-width: 736px){
 .sidebar {
   width: 100%;

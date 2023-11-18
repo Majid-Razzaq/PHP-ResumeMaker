@@ -112,6 +112,7 @@
 			$newlocation = "../assets/images/".$filename;
 			move_uploaded_file($oldLocation,$newlocation);
     
+            $_SESSION['success'] = "success";
 
             $query = mysqli_query($con,"INSERT into register (username,contact,address,email,password,user_img)
             values('$name','$phone','$add','$mail','$pass','$filename')");
@@ -119,14 +120,12 @@
 
             if($query > 0)
             {
-                echo '<script>window.location.href = "http://localhost/resume-Builder/auth/login.php";</script>';
-            }
-            else
-            {
                 echo"
-                <script>alert('something fault in code')</script>
+                  <script>window.location.href = 'http://localhost/Resume-builder/auth/login.php';</script>
                 ";
+               exit();
             }
+
 
         }
 

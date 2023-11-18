@@ -8,9 +8,9 @@
 
     if($username == $row[3]) 
     {
-       
-            if(isset($_SESSION["username"]))
-            {
+	
+		if(isset($_SESSION["username"]))
+		{
 
 ?>
 <!DOCTYPE HTML>
@@ -54,7 +54,7 @@
       line-height: 40px;
       cursor: pointer;
       transform: translate(-50%, -50%);
-  z-index: 9999;
+ 	  z-index: 9999;
     }
     .fa-edit
     {
@@ -63,15 +63,14 @@
   </style>
 </head>
 <body>
-
-<form action="update-resume.php" method="post">
-  <button title="Update resume!" class="edit-button scroll-to-top" id="edit"> <i class="fa fa-edit"></i></button>
-  </form>
-
+	<form action="update-resume.php" method="post">
+  		<button title="Update resume!" class="edit-button scroll-to-top" id="edit"> <i class="fa fa-edit"></i></button>
+    </form>
 <!-- header -->
-<div id="myContent" class="col-sm-3 col-md-2 sidebar">
+<div class="clearfix" id="myContent">
+<div class="col-sm-3 col-md-2 sidebar">
 		 <div class="sidebar_top">
-			 <h1 class="text-center"><?php echo strtoupper($row[3]) ?></h1> 
+		 <h1 class="text-center"><?php echo $row[3] ?></h1>
 			 <?php
                 echo"
               <img src='assets/images/".$row['user_img']."' alt='' >
@@ -166,6 +165,7 @@
 		 </div>
 
 	 </div>
+</div>
 </div>
 
 

@@ -11,7 +11,6 @@ session_start();
 
     if($username == $row[3]) 
     {
-
             if(isset($_SESSION["username"]))
             {
 
@@ -70,14 +69,14 @@ session_start();
                             </div>
                                 <ul>
                                  
-                                    <li class="pt-3"><a href="#" class="p-1" id="selectText">Upload New Image</a></li>
-                                    <li><input type="file" name="txtfile" class="btn btn-link text-info p-1" id="imageInput" style="display: none;"></li>
+                                    <li class="pt-4">
+                                        <a href="#" class="p-1" id="selectText">Upload New Image</a>
+                                    </li>
+                                    <input type="file" name="txtfile" class="btn btn-link text-info p-1" id="imageInput" style="display: none;">
                                     
-                                    
-                                    <!-- <input type="file" name="user_img" value="<?php echo empty($_FILES['txtfile']['name']) ? $row['user_img'] : ''; ?>" id="imageInput" style="display: none;"> -->
-                                    <input type="hidden" name="user_img" value="<?php echo $row['user_img'] ?>">
+                                    <!-- <input type="hidden" name="user_img" value="<?php echo $_SESSION['user_img'] ?>"> -->
 
-                                    <li><input type="submit" name="dlt_img" class="btn btn-link text-danger p-1" value="Delete Image"></li>
+                                    <!-- <li><input type="submit" name="dlt_img" class="btn btn-link text-danger p-1" value="Delete Image"></li> -->
 
                                 </ul>
                             </div>
@@ -627,33 +626,23 @@ session_start();
             $oth_strt_date  = $_POST['OthStrtDate'];
             $oth_end_date  = $_POST['OthEndDate'];
 
+            if(!empty($_FILES['txtfile']['name'])) {
 
-            $img = $_FILES['txtfile'];
-            if($img == null)
-            {
-                $filename = $_FILES["user_img"]["name"];
-                $oldLocation = $_FILES["user_img"]["tmp_name"];
+                $filename = $_FILES["txtfile"]["name"];
+                $oldLocation = $_FILES["txtfile"]["tmp_name"];
                 $newlocation = "assets/images/".$filename;
                 move_uploaded_file($oldLocation,$newlocation); 
+           }
+           else{
 
-                $username = $_SESSION['username'];
-                $updateimg = "INSERT into register (user_img) values ('$filename') where username = '$username'";
-                $updImg_query = mysqli_query($con,$updateimg);
-    
-            }
-            else
-            {
-                $filename = $_FILES["txtfile"]["name"];
-                $oldlocation = $_FILES["txtfile"]["tmp_name"];
+                $filename = $row['user_img']; // Get the existing image filename from the database
+                $oldLocation = $_FILES["txtfile"]["tmp_name"];
                 $newlocation = "assets/images/".$filename;
-                move_uploaded_file($oldlocation,$newlocation);
-            }
-                 
-               
-                 
-                
-      
-            $username = $_SESSION['username'];
+                move_uploaded_file($oldLocation, $newlocation);
+           }
+            // $username = $_SESSION['username'];
+            // $updateimg = "INSERT into register (user_img) values ('$filename') where username = '$username'";
+            // $updImg_query = mysqli_query($con,$updateimg);
 
             $upd_reg = "UPDATE register set username='$name',contact='$userNum',address='$userAdd',email='$user_email',user_img='$filename'
             where username = '$username'";
@@ -665,11 +654,14 @@ session_start();
 
             if($update_query > 0)
             {
-                $_SESSION['username'] = $name;
+                // $_SESSION['username'] = $name;
 
                echo"
                  <script>window.location.href = 'templates.php?success=1';</script>
-                 ";
+                 "; 
+                $query = mysqli_query($con,"select * from register where email='$user_email'");
+                $session_Data = mysqli_fetch_array($query);
+                $_SESSION['username'] = $session_Data[1];
                 exit();
                
                                
@@ -694,31 +686,31 @@ session_start();
 <!-- Image delete Code Start -->
     <?php
 
-if(isset($_POST['dlt_img']))
-{
-    $sql = "UPDATE cv_data, register
-    SET cv_data.user_img = NULL, register.user_img = NULL
-    WHERE cv_data.username = '$username' AND register.username = '$username'";
+// if(isset($_POST['dlt_img']))
+// {
+//     $sql = "UPDATE cv_data, register
+//     SET cv_data.user_img = NULL, register.user_img = NULL
+//     WHERE cv_data.username = '$username' AND register.username = '$username'";
 
-$query_run = mysqli_query($con,$sql);
+// $query_run = mysqli_query($con,$sql);
 
-    if($query_run > 0)
-    {
-        echo "
-        <script>alert('deleted');
-        window.location.href = 'update-resume.php';
-        </script>   
-        ";
-        // header('Location: ' . $_SERVER['PHP_SELF']);
+//     if($query_run > 0)
+//     {
+//         echo "
+//         <script>alert('deleted');
+//         window.location.href = 'update-resume.php';
+//         </script>   
+//         ";
+//         // header('Location: ' . $_SERVER['PHP_SELF']);
 
-    }
-    else
-    {
-        echo "
-        <script>alert('Failed')</script>
-        ";
-    }
-}
+//     }
+//     else
+//     {
+//         echo "
+//         <script>alert('Failed')</script>
+//         ";
+//     }
+// }
 ?>
 <!-- Image delete Code End -->
 
@@ -804,7 +796,7 @@ else
 }
 else
 {
-    header('location:templates.php');
+    header('location:resume.php');
 }
 ?>
 </body>

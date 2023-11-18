@@ -48,13 +48,14 @@
     {
       font-size: 23px;
     }
+  
   </style>
   </head>
 <body>
 
 <form action="update-resume.php" method="post">
   <button title="Update resume!" class="edit-button scroll-to-top" id="edit"> <i class="fa fa-edit"></i></button>
-  </form>
+</form>
 
 <div class="container">
   <div class="header">
@@ -191,19 +192,22 @@
 
 <script>
       function printPage() {
+      document.getElementById("edit").style.display = "none";
       window.print();
+    } 
+
+    // JavaScript code for handling the scroll-to-top functionality
+    window.onscroll = function() {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("edit").style.display = "block";
+        } else {
+            document.getElementById("edit").style.display = "show";
+        }
     }
-
-      // JavaScript code for handling the scroll-to-top functionality
-      window.onscroll = function() { scrollFunction(); };
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("edit").style.display = "block";
-  } else {
-    document.getElementById("edit").style.display = "show";
-  }
-}
   </script>
 <?php
 } 

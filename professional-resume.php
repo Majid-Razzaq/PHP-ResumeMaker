@@ -26,6 +26,8 @@
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Customs css -->
+    <link rel="stylesheet" href="assets/css/resume_css/resume.css?v=<?php echo time(); ?>">
+
     <link rel="stylesheet" href="assets/css/resume_css/proTemp.css?v=<?php echo time(); ?>" type='text/css'>
     <!-- pdf to html -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,7 +39,7 @@
     .scroll-to-top {
       display: none;
       position: fixed;
-      bottom: 20px;
+      bottom: 50px;
       right: 20px;
       width: 60px;
       height: 60px;
@@ -129,20 +131,21 @@
         <h3>Reference</h3>
         <p class="light"><?php echo" $row[28] "; ?>from<?php echo" $row[29] "; ?>-<span><?php echo" $row[34] "; ?>-<?php echo" $row[35] "; ?></span></span></p>
         <p class="light"><?php echo" $row[30] "; ?>-<?php echo" $row[31] "; ?></span></p>         
-     <!-- Button -->
-     <button class="myBtn" onclick="printPage()" title="Generate to PDF">Generate PDF</button>
-    <!-- Button -->
 
-    
-
-    </div>
+  </div>
 </div>
+  </div>
+  </div>
+
+<!-- Button -->
+<button class="btn btn-info myBtn" onclick="printPage()" title="Generate to PDF">Generate PDF</button>
+<!-- Button -->
 
 <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
 
 <script>
-//Create PDf from HTML...
+//Create PDF from HTML...
 function printPage() {
   // Hide the button
   var button = document.querySelector('.myBtn');
@@ -150,23 +153,38 @@ function printPage() {
 
   var opt = {
     margin: 32,
-    unit: 'px',
-    format: 'a4',
+    unit: 'px', // Change to 'px' since html2canvas ignores '%' unit for height
     filename: 'Resume.pdf',
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 3 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' } // Change to 'px' for unit and 'a4' for format
   };
 
-  html2canvas(document.getElementById('myContent'), opt).then(function(canvas) {
-    var doc = new jsPDF(opt.jsPDF.orientation, opt.jsPDF.unit, opt.jsPDF.format);
-    doc.addImage(canvas.toDataURL('image/jpeg'), 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
-    doc.save(opt.filename);
+  // Get the full height of the content by temporarily setting height to auto
+  var contentElement = document.getElementById('myContent');
+  var originalHeight = contentElement.style.height;
+  contentElement.style.height = 'auto';
 
-    // Show the button again
-    button.style.display = 'block';
-  });
+  // Wait for a short duration to let the content adjust (you can increase the duration if needed)
+  setTimeout(function() {
+    html2canvas(contentElement, opt.html2canvas).then(function(canvas) {
+      // Reset the height of the content
+      contentElement.style.height = originalHeight;
+
+      var pdf = new jsPDF(opt.jsPDF.orientation, opt.jsPDF.unit, opt.jsPDF.format);
+      var imgData = canvas.toDataURL('image/jpeg', 1.0);
+      var imgWidth = pdf.internal.pageSize.getWidth();
+      var imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+      pdf.save(opt.filename);
+
+      // Show the button again
+      button.style.display = 'block';
+    });
+  }, 500); // Adjust the duration as needed
 }
+
 
 </script>
 
